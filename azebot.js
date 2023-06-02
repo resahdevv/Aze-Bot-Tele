@@ -274,7 +274,7 @@ module.exports = aze = async (aze, bot) => {
                 let anu = await aze_bot.fetchJson(api('zenz', '/downloader/tiktok', { url: args[0] }, 'apikey'))
                 if (anu.status == false) return reply(anu.result.message)
                 aze.replyWithVideo({
-                    url: anu.result.video.noWatermark
+                    url: anu.result.url[0].url
                 }, {
                     caption: 'Download From ' + args[0]
                 })
@@ -315,7 +315,7 @@ module.exports = aze = async (aze, bot) => {
                 let anu = await aze_bot.fetchJson(api('zenz', '/downloader/tiktok', { url: args[0] }, 'apikey'))
                 if (anu.status == false) return reply(anu.result.message)
                 aze.replyWithAudio({
-                    url: anu.result.music.play_url,
+                    url: anu.result.url[1].url,
                     filename: 'Tiktok Audio.mp3'
                 }, {
                     caption: 'Download From ' + args[0]
@@ -416,7 +416,7 @@ module.exports = aze = async (aze, bot) => {
             }
             break
             case "getip": {
-                if (!isCreator) throw LANGUAGE_IND.mess.owner
+                if (!isCreator) return reply(LANGUAGE_IND.mess.owner)
                 reply("My public IP address is: " + ipserver);
             }
             break
@@ -464,7 +464,7 @@ module.exports = aze = async (aze, bot) => {
                 if (isBanned) return reply(LANGUAGE_IND.mess.banned)   
                 if (!args[0]) return reply('Masukkan Query Link!')   
                 if (!isUrl(args[0])) return reply('Link Invalid')
-                const youtubeDomains = ['youtube.com', 'www.youtube.com'];
+                const youtubeDomains = ['youtube.com', 'www.youtube.com', 'youtu.be'];
                 const url = new URL(args[0]);
                 if (!youtubeDomains.includes(url.hostname)) {
                     return reply('Link bukan dari Youtube!')
@@ -495,7 +495,7 @@ module.exports = aze = async (aze, bot) => {
                 if (isBanned) return reply(LANGUAGE_IND.mess.banned)   
                 if (!args[0]) return reply('Masukkan Query Link!')   
                 if (!isUrl(args[0])) return reply('Link Invalid')
-                const youtubeDomains = ['youtube.com', 'www.youtube.com'];
+                const youtubeDomains = ['youtube.com', 'www.youtube.com', 'youtu.be'];
                 const url = new URL(args[0]);
                 if (!youtubeDomains.includes(url.hostname)) {
                     return reply('Link bukan dari Youtube!')
