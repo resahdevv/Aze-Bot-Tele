@@ -748,6 +748,7 @@ module.exports = aze = async (aze, bot) => {
                 if (telegram_id === OWNERID) return reply('_Id Owner Di Larang_')
                 if (!pesan && !telegram_id) return reply(`Example: ${prefix + command} Id|Hallo`)
                 bot.telegram.sendMessage(telegram_id, pesan, opts)
+                await reply(LANGUAGE_IND.mess.success)
             }
             break 
             case "spam": {
@@ -835,6 +836,15 @@ module.exports = aze = async (aze, bot) => {
                     }
                 }
                 fetchData();
+            }
+            break
+            case "buysourcecode": {
+                aze.replyWithPhoto({
+                    source: PRICE
+                }, {
+                    caption: '_Untuk melakukan pembelian contact_ [Click Here](https://wa.me/+6285742632270)',
+                    parse_mode: "MARKDOWN"
+                })
             }
             
         }

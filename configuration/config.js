@@ -37,6 +37,8 @@ global.OWNER = ["https://t.me/ezasarah"];
 global.OWNERID = '1283353379';
 global.THUMBNAIL = "./src/thumb.jpg";
 global.DONASI = "./src/donasi.jpg";
+global.PRICE = "./src/price.jpg";
+
 
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {

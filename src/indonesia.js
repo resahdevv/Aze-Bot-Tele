@@ -144,6 +144,7 @@ _Hallo Kak ${pushname} 👋_
 ├• 📌 /donasi
 ├• 📌 /rules
 ├• 📌 /script
+├• 📌 /buysourcecode
 │
 ╰❑ 「 *THANK YOU* 」
 `
