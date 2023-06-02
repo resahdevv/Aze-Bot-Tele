@@ -45,6 +45,8 @@ module.exports = aze = async (aze, bot) => {
         //Groups
         const isGroup = aze.chat.type.includes('group')
         const groupName = isGroup ? aze.chat.title : ''
+        const newMember = aze.message.new_chat_member;
+        const leftMember = aze.message.left_chat_member;
 
         const isBanned = banned.includes("" + from)
         const isImage = aze.message.hasOwnProperty('photo')
@@ -99,42 +101,28 @@ module.exports = aze = async (aze, bot) => {
         //Push message to console
         if (aze.message) {
             console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(body || typeMessage)) + '\n' + chalk.magenta('=> From'), chalk.green(pushname) + '\n' + chalk.blueBright('=> In'), chalk.green(isGroup ? groupName : 'Private Chat', aze.message.chat.id))
-            const newMember = aze.message.new_chat_member;
             if (newMember) {
                 const memberId = newMember.id;
                 const memberUsername = newMember.username;
                 const chatId = aze.chat.id;
-          
-                // Lakukan tindakan sesuai kebutuhan dengan member baru
                 console.log(`New member joined: ${memberId} (${memberUsername})`);
-          
-                // Kirim pesan selamat datang kepada member baru
                 bot.telegram.sendMessage(chatId, `_Selamat datang, ${memberUsername}!_`, opts);
-              
-                // Jika Member keluar
-                const leftMember = aze.message.left_chat_member;
-                if (leftMember) {
-                    const memberId = leftMember.id;
-                    const memberUsername = leftMember.username;
-                    const chatId = aze.chat.id;
-                
-                    // Lakukan tindakan sesuai kebutuhan dengan pengguna yang keluar
-                    console.log(`Member left: ${memberId} (${memberUsername})`);
-
-                    // Kirim pesan perpisahan
-                    bot.telegram.sendMessage(chatId, `_Sampai jumpa, ${memberUsername}!_`, opts);
-                }
+            } else if (leftMember) {
+                const memberId = leftMember.id;
+                const memberUsername = leftMember.username;
+                const chatId = aze.chat.id;
+                console.log(`Member left: ${memberId} (${memberUsername})`);
+                bot.telegram.sendMessage(chatId, `_Sampai jumpa, ${memberUsername}!_`, opts);
             }
         }
 
         //Push user to database
-        if (isCmd && !isUser) {
+        if (isCmd && !isUser && !isGroup) {
             signup.push("" + from)
             bot.telegram.sendMessage(from, `╭──❒ *USER BARU TERDETEKSI*\n├• 📌 Id: ${from}\n├• 📌 Name: ${pushname}\n├• 📌 Username: @${username ? username : 'Unknown'}\n╰❑\n\n*Selamat datang gunakan bot dengan bijak!. Patuhi Syarat & Ketentuan yang berlaku /rules Terimakasih.*\n\n[@${OWNER_NAME}](${OWNER[0]})`, opts)
             setTimeout(() => {
                 bot.telegram.sendMessage(OWNERID, `╭──❒ *ADA USER BARU*\n├• 📌 Id: ${from}\n├• 📌 Name: ${pushname}\n├• 📌 Username: @${username ? username : 'Unknown'}\n╰❑`, opts)
             }, 3000)
-            if (isGroup) return console.log('Chat On Group Denied Acess To User')
             fs.writeFileSync('./src/user.json', JSON.stringify(signup, null, 2))
         }
         switch (command) {
