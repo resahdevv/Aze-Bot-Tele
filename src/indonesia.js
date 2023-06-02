@@ -186,6 +186,9 @@ _Hallo Kak ${pushname} 👋_
 ├• *JAIL TOOL*
 ├• 📌 /spam (tel<>id|count|mess)
 │
+├• *CREATOR / OWNER*
+├• 📌 /broadnotif (text)
+│
 ╰❑ 「 *THANK YOU* `
 aze.replyWithPhoto({
     source: thumbnail

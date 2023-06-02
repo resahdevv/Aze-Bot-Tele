@@ -834,7 +834,25 @@ module.exports = aze = async (aze, bot) => {
                     parse_mode: "MARKDOWN"
                 })
             }
-            
+            break
+            case "broadnotif": {
+                if (!isCreator) return reply(mess.owner)
+                if (!text) return reply(`Example ${prefix}${command} Hi Semuanya`)
+                let signup = JSON.parse(fs.readFileSync('./src/user.json'))
+                let count = signup.length;
+                let sentCount = 0; 
+                reply('*_Sedang Mengirim Pesan..._');
+                for (let i = 0; i < signup.length; i++) {
+                    setTimeout(function() {
+                        bot.telegram.sendMessage(signup[i], { text: text }, opts);
+                        count--;
+                        sentCount++;
+                        if (count === 0) {
+                            reply(`_Semua pesan telah dikirim!_:\n_Jumlah pesan terkirim: ${sentCount}_`);
+                        }
+                    }, i * 1000); // delay setiap pengiriman selama 1 detik
+                } 
+            }
         }
         
     } catch (e) {
