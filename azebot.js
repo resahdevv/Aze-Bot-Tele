@@ -120,10 +120,10 @@ module.exports = aze = async (aze, bot) => {
         if (isCmd && !isUser && !isGroup) {
             signup.push("" + from)
             bot.telegram.sendMessage(from, `╭──❒ *USER BARU TERDETEKSI*\n├• 📌 Id: ${from}\n├• 📌 Name: ${pushname}\n├• 📌 Username: @${username ? username : 'Unknown'}\n╰❑\n\n*Selamat datang gunakan bot dengan bijak!. Patuhi Syarat & Ketentuan yang berlaku /rules Terimakasih.*\n\n[@${OWNER_NAME}](${OWNER[0]})`, opts)
+            fs.writeFileSync('./src/user.json', JSON.stringify(signup, null, 2))
             setTimeout(() => {
                 bot.telegram.sendMessage(OWNERID, `╭──❒ *ADA USER BARU*\n├• 📌 Id: ${from}\n├• 📌 Name: ${pushname}\n├• 📌 Username: @${username ? username : 'Unknown'}\n╰❑`, opts)
             }, 3000)
-            fs.writeFileSync('./src/user.json', JSON.stringify(signup, null, 2))
         }
         switch (command) {
             case "tes": {
@@ -836,8 +836,8 @@ module.exports = aze = async (aze, bot) => {
             }
             break
             case "broadnotif": {
-                if (!isCreator) return reply(mess.owner)
-                if (!text) return reply(`Example ${prefix}${command} Hi Semuanya`)
+                if (!isCreator) return reply(LANGUAGE_IND.mess.owner)
+                if (!text) return reply(`Example: ${prefix}${command} Hi Semuanya`)
                 let signup = JSON.parse(fs.readFileSync('./src/user.json'))
                 let count = signup.length;
                 let sentCount = 0; 
@@ -848,7 +848,7 @@ module.exports = aze = async (aze, bot) => {
                         count--;
                         sentCount++;
                         if (count === 0) {
-                            reply(`_Semua pesan telah dikirim!_:\n_Jumlah pesan terkirim: ${sentCount}_`);
+                            bot.telegram.sendMessage(from, { text: `_Semua pesan telah dikirim!_:\n_Jumlah pesan terkirim: ${sentCount}_`}, opts);
                         }
                     }, i * 1000); // delay setiap pengiriman selama 1 detik
                 } 
