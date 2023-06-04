@@ -188,10 +188,6 @@ global.api = (name, path = "/", query = {}, apikeyqueryname) =>
     })
     console.log(aze_bot.color('Print...Bot Token!...', 'cyan'))
     qrcode.generate(BOT_TOKEN ? BOT_TOKEN : 'Unknown', {small: true});
-    if (typeof ipserver === 'undefined') {
-      ipserver = '192.168.0.1'; // Nilai default untuk ipserver jika tidak didefinisikan
-    }
-    bot.telegram.sendMessage(OWNERID, {text: `╭──❒ *BOT CONFIGURATION*\n├• Bot Name : ${getme.first_name}\n├• Username : ${getme.username}\n├• Id : ${getme.id}\n├• Author : ${OWNER[0]}\n├• Server Ip : ${ipserver}\n╰❑`}, { parse_mode: "MARKDOWN" });
   })
 }
 startaze()
