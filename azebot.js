@@ -773,14 +773,12 @@ module.exports = aze = async (aze, bot) => {
                 let anu = await fetch(api('lol', '/api/translate/auto/id', {text: text }, 'apikey'))
                 if (!anu.ok) throw await anu.text()
                 var result = await anu.json()
-                var { to, original, translated, pronunciation } = result.result
+                var { to, translated } = result.result
                 let key = "「 *HASIL TRANSLATE* 」\n\n"
                 key += `• _From: ${result.result.from}_\n`
                 key += `• _To: ${to}_\n`
                 await reply(key)
-                reply(original)
-                reply(translated)
-                reply(pronunciation)
+                reply(translated.replace('null', 'Unknown'))
             }
             break
             case "fetch": {
