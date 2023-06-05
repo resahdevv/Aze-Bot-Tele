@@ -189,6 +189,8 @@ _Hallo Kak ${pushname} 👋_
 │
 ├• *CREATOR / OWNER*
 ├• 📌 /broadnotif (text)
+├• 📌 /listuser
+├• 📌 /listbanned
 │
 ╰❑ 「 *THANK YOU* `
 aze.replyWithPhoto({

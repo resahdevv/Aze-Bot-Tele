@@ -186,7 +186,7 @@ global.api = (name, path = "/", query = {}, apikeyqueryname) =>
       "Link": "https://t.me/" + getme.username,
       "Author": OWNER[0]
     })
-    console.log(aze_bot.color('Print...Bot Token!...', 'cyan'))
+    console.log(aze_bot.color('Print Bot Token...', 'cyan'))
     qrcode.generate(BOT_TOKEN ? BOT_TOKEN : 'Unknown', {small: true});
   })
 }

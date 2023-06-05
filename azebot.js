@@ -500,28 +500,50 @@ module.exports = aze = async (aze, bot) => {
                 if (!youtubeDomains.includes(url.hostname)) {
                     return reply('Link bukan dari Youtube!')
                 }
-                reply(LANGUAGE_IND.mess.wait)
-                let anu = await fetch(api('lol', '/api/ytvideo', { url: args[0] }, 'apikey'))
-                if (!anu.ok) throw await anu.text()
-                var result = await anu.json()
-                var { id, thumbnail } = result.result
-                var { link, type, resolution, size } = result.result.link
-                let key = "「 *YOUTUBE VIDEO* 」\n\n"
-                key += `• _Id: ${id}_\n`
-                key += `• _Type: ${type}_\n`
-                key += `• _Resolusi: ${resolution}_\n`
-                key += `• _Size: ${size}_\n`
-                await aze.replyWithPhoto({
-                    url: thumbnail
-                }, {
-                    caption: key,
-                    parse_mode: 'MARKDOWN'
-                })
-                aze.replyWithVideo({
-                    url: link
-                }, {
-                    caption: LANGUAGE_IND.mess.success
-                })
+                if (command === 'ytshorts') {
+                    reply(LANGUAGE_IND.mess.wait)
+                    let anu = await fetch(api('lol', '/api/ytvideo2', { url: args[0] }, 'apikey'))
+                    if (!anu.ok) throw await anu.text()
+                    var result = await anu.json()
+                    var { title, thumbnail, size, link} = result.result
+                    let key = "「 *YOUTUBE SHORTS* 」\n\n"
+                    key += `• _Title: ${title}_\n`
+                    key += `• _Size: ${size}_\n`
+                    await aze.replyWithPhoto({
+                        url: thumbnail
+                    }, {
+                        caption: key,
+                        parse_mode: 'MARKDOWN'
+                    })
+                    aze.replyWithVideo({
+                        url: link
+                    }, {
+                        caption: LANGUAGE_IND.mess.success
+                    })
+                } else if (command === 'ytmp4') {
+                    reply(LANGUAGE_IND.mess.wait)
+                    let anu = await fetch(api('lol', '/api/ytvideo', { url: args[0] }, 'apikey'))
+                    if (!anu.ok) throw await anu.text()
+                    var result = await anu.json()
+                    var { id, thumbnail } = result.result
+                    var { link, type, resolution, size } = result.result.link
+                    let key = "「 *YOUTUBE VIDEO* 」\n\n"
+                    key += `• _Id: ${id}_\n`
+                    key += `• _Type: ${type}_\n`
+                    key += `• _Resolusi: ${resolution}_\n`
+                    key += `• _Size: ${size}_\n`
+                    await aze.replyWithPhoto({
+                        url: thumbnail
+                    }, {
+                        caption: key,
+                        parse_mode: 'MARKDOWN'
+                    })
+                    aze.replyWithVideo({
+                        url: link
+                    }, {
+                        caption: LANGUAGE_IND.mess.success
+                    })
+                }
             }
             break
             case "toaudio": {
@@ -657,9 +679,9 @@ module.exports = aze = async (aze, bot) => {
                 if (isBanned) return reply(LANGUAGE_IND.mess.banned)   
                 if (!args[0]) return reply('Masukkan Query Link!')   
                 if (!isUrl(args[0])) return reply('Link Invalid')
-                const youtubeDomains = ['mediafire.com', 'www.mediafire.com'];
+                const mediafireDomains = ['mediafire.com', 'www.mediafire.com'];
                 const url = new URL(args[0]);
-                if (!youtubeDomains.includes(url.hostname)) {
+                if (!mediafireDomains.includes(url.hostname)) {
                     return reply('Link bukan dari Mediafire!')
                 }
                 reply(LANGUAGE_IND.mess.wait)
@@ -863,6 +885,69 @@ module.exports = aze = async (aze, bot) => {
                     caption: LANGUAGE_IND.mess.success,
                     parse_mode: "MARKDOWN"
                 })
+            }
+            break
+            case "listuser": {
+                if (!isCreator) return reply(LANGUAGE_IND.mess.owner)
+                let teks = '*「 DAFTAR ID USER 」*\n\n';
+                for (let pengguna of signup) {
+                    teks += `- ${pengguna}\n`;
+                }
+                teks += `\n_Total User : ${signup.length}_`;
+                if (teks.length > 4096) {
+                    const maxMessageLength = 4096;
+                    const messages = [];
+                    let currentMessage = '';
+                    // Memisahkan teks menjadi beberapa pesan dengan panjang maksimum 4096 karakter
+                    const lines = teks.split('\n');
+                    for (let line of lines) {
+                        if ((currentMessage + line).length > maxMessageLength) {
+                            messages.push(currentMessage.trim());
+                            currentMessage = '';
+                        }
+                        currentMessage += line + '\n';
+                    }
+                    // Mengirim pesan-pesan yang terpisah
+                    for (let i = 0; i < messages.length; i++) {
+                        const isLastMessage = i === messages.length - 1;
+                        const messageText = isLastMessage ? messages[i].trim() : messages[i].trim() + '...';
+                        bot.telegram.sendMessage(from, { text: messageText }, opts);
+                    }
+                } else {
+                    bot.telegram.sendMessage(from, { text: teks.trim() }, opts);
+                }
+            }
+            break
+            case "listbanned": {
+                if (!isCreator) return reply(LANGUAGE_IND.mess.owner)
+                let teks = '*「 DAFTAR ID BANNED 」*\n\n';
+                for (let medog of banned) {
+                    teks += `- ${medog}\n`;
+                }
+                teks += `\n_Total Banned : ${banned.length}_`;
+                if (teks.length > 4096) {
+                    const maxMessageLength = 4096;
+                    const messages = [];
+                    let currentMessage = '';
+                    // Memisahkan teks menjadi beberapa pesan dengan panjang maksimum 4096 karakter
+                    const lines = teks.split('\n');
+                    for (let line of lines) {
+                        if ((currentMessage + line).length > maxMessageLength) {
+                            messages.push(currentMessage.trim());
+                            currentMessage = '';
+                        }
+                        currentMessage += line + '\n';
+                    }
+                    // Mengirim pesan-pesan yang terpisah
+                    for (let i = 0; i < messages.length; i++) {
+                        const isLastMessage = i === messages.length - 1;
+                        const messageText = isLastMessage ? messages[i].trim() : messages[i].trim() + '...';
+                        bot.telegram.sendMessage(from, { text: messageText }, opts);
+                    }
+                } else {
+                    bot.telegram.sendMessage(from, { text: teks.trim() }, opts);
+                }
+
             }
         }
         
