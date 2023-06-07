@@ -230,7 +230,7 @@ module.exports = aze = async (aze, bot) => {
                     if (isGroup) return reply(LANGUAGE_IND.mess.private)
                     reply('ID Chat: ' + from)
                 } else if (command === 'getidgroup') {
-                    if (!isGroup) return reply(LANGUAGE_IND.mess.grup)
+                    if (!isGroup) return reply(LANGUAGE_IND.mess.group)
                     reply('ID Group: ' + from)
                 }
             }
