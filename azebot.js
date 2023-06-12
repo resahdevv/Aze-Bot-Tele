@@ -249,7 +249,7 @@ module.exports = aze = async (aze, bot) => {
                 }
             }
             break
-            case"gempa": {
+            case "gempa": {
                 if (isBanned) return reply(LANGUAGE_IND.mess.banned)
                 reply(LANGUAGE_IND.mess.waitdata)
                 let anu = await aze_bot.fetchJson(api('zenz', '/information/bmkg/gempa', {}, 'apikey'))
