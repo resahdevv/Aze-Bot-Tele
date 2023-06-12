@@ -355,7 +355,7 @@ module.exports = aze = async (aze, bot) => {
                         model: "gpt-3.5-turbo",
                         messages: [{role: "user", content: text}],
                     });
-                    reply(`${response.data.choices[0].text}`);
+                    reply(`${response.data.choices[0].message.content}`);
                 } catch (error) {
                     if (error.response) {
                         console.log(error.response.status);
@@ -368,6 +368,7 @@ module.exports = aze = async (aze, bot) => {
                 }
                 
             }
+            break
             case "img": {
                 try {
                     if (isBanned) return reply(LANGUAGE_IND.mess.banned)
