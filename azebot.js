@@ -202,7 +202,7 @@ module.exports = aze = async (aze, bot) => {
                 reply(respon)
             }
             break
-            case 'anime': case 'waifu': case 'husbu': case 'neko': case 'shinobu': case 'megumin': {
+            case "anime": case "waifu": case "husbu": case "neko": case "shinobu": case "megumin": {
                 if (isBanned) return reply(LANGUAGE_IND.mess.banned)
                 reply(LANGUAGE_IND.mess.wait)
                 const image_url = api('zenz', '/randomanime/' + command, {}, 'apikey')
@@ -443,6 +443,25 @@ module.exports = aze = async (aze, bot) => {
                     banned.push(telgram_id)
                     fs.writeFileSync('./src/banned.json', JSON.stringify(banned))
                     reply(`_Success Banned ${telgram_id}_`)
+                }
+            }
+            break
+            case "getcase": {
+                if (!isCreator) return reply(LANGUAGE_IND.mess.owner)
+                if (text === command) return reply('_Acsess Denied!_')
+                if (!args[0]) return reply("Mau ngambil case apa?")
+                try {
+                    reply(LANGUAGE_IND.mess.wait)
+                    let code = "case " + `"${args[0]}"` + fs.readFileSync('./azebot.js').toString().split(`case "${args[0]}"`)[1].split('break')[0] + 'break'
+                    let image_url = api('lol', '/api/carbon', { code: code, language: 'javascript' }, 'apikey')
+                    aze.replyWithPhoto({
+                        url: image_url
+                    }, {
+                        caption: LANGUAGE_IND.mess.success,
+                        parse_mode: "MARKDOWN",
+                    })
+                } catch (error) {
+                    reply(error)
                 }
             }
             break
