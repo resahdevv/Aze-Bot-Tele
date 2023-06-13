@@ -191,6 +191,7 @@ _Hallo Kak ${pushname} 👋_
 ├• 📌 /broadnotif (text)
 ├• 📌 /listuser
 ├• 📌 /listbanned
+├• 📌 /getcase (casename)
 │
 ╰❑ 「 *THANK YOU* `
 aze.replyWithPhoto({
