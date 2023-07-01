@@ -252,12 +252,11 @@ module.exports = aze = async (aze, bot) => {
             case "gempa": {
                 if (isBanned) return reply(LANGUAGE_IND.mess.banned)
                 reply(LANGUAGE_IND.mess.waitdata)
-                let anu = await aze_bot.fetchJson(api('zenz', '/information/bmkg/gempa', {}, 'apikey'))
-                if (anu.status == false) return reply(anu.result.message)
+                let anu = await aze_bot.fetchJson('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json')
                 aze.replyWithPhoto({
-                    url: anu.result.shakemap
+                    url: 'https://data.bmkg.go.id/DataMKG/TEWS/' + anu.Infogempa.gempa.Shakemap
                 }, {
-                    caption: `⭔ Tanggal : ${anu.result.tanggal}\n⭔ Jam : ${anu.result.jam}\n⭔ Date Time : ${anu.result.datetime}\n⭔ Coordinate : ${anu.result.coordinates}\n⭔ Lintang : ${anu.result.lintang}\n⭔ Bujur : ${anu.result.bujur}\n⭔ Magnitude : ${anu.result.magnitude}\n⭔ Kedalaman : ${anu.result.kedalaman}\n⭔ Wilayah : ${anu.result.wilayah}\n⭔ Potensi : ${anu.result.potensi}\n⭔ Dirasakan : ${anu.result.dirasakan}` 
+                    caption: `⭔ Tanggal : ${anu.Infogempa.gempa.Tanggal}\n⭔ Jam : ${anu.Infogempa.gempa.Jam}\n⭔ Date Time : ${anu.Infogempa.gempa.DateTime}\n⭔ Coordinate : ${anu.Infogempa.gempa.Coordinates}\n⭔ Lintang : ${anu.Infogempa.gempa.Lintang}\n⭔ Bujur : ${anu.Infogempa.gempa.Bujur}\n⭔ Magnitude : ${anu.Infogempa.gempa.Magnitude}\n⭔ Kedalaman : ${anu.Infogempa.gempa.Kedalaman}\n⭔ Wilayah : ${anu.Infogempa.gempa.Wilayah}\n⭔ Potensi : ${anu.Infogempa.gempa.Potensi}\n⭔ Dirasakan : ${anu.Infogempa.gempa.Dirasakan}` 
                 })
             }
             break
@@ -339,6 +338,19 @@ module.exports = aze = async (aze, bot) => {
                     caption: `_${LANGUAGE_IND.mess.success}_`,
                     parse_mode: 'MARKDOWN'
                 })
+            }
+            break
+            case "diffusion" : {
+                if (isBanned) return reply(LANGUAGE_IND.mess.banned)
+                if (!text) return reply(`EXample: ${prefix + command} cute girl beautifull`)
+                reply(LANGUAGE_IND.mess.wait)
+                const image_url = api('lol', '/api/diffusion-prompt', {prompt: text}, 'apikey')
+                aze.replyWithPhoto({
+                    url: image_url,
+                }, {
+                    caption: `_${text}_`,
+                    parse_mode: 'MARKDOWN'
+                });
             }
             break
             case "ai": {

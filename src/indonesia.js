@@ -183,6 +183,7 @@ _Hallo Kak ${pushname} 👋_
 ├• *IMAGE MAKER*
 ├• 📌 /nulis (text)
 ├• 📌 /qrcode (text)
+├• 📌 /diffusion (text)
 │
 ├• *JAIL TOOL*
 ├• 📌 /spam (tel<>id|count|mess)
